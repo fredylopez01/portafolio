@@ -1,0 +1,27 @@
+Hay proyectos que nacen de una tarea y mueren con la nota. Y hay otros que, sin planearlo, se te meten debajo de la piel y siguen vivos mucho después de que la materia terminó. GymColombia es del segundo tipo.
+
+## Cómo empezó
+
+Todo arrancó en una materia de Ingeniería de Software. La consigna era simple: diseñar un sistema real, con requisitos, casos de uso, diagramas UML y toda la parafernalia académica. La mayoría de los equipos eligieron problemas seguros: un sistema de biblioteca, un gestor de tareas, un carrito de compras. Nosotros decidimos hacer algo que existiera de verdad, con usuarios reales esperando, aunque nunca llegaran.
+
+Elegimos los gimnasios porque conocíamos el problema de cerca. Los gimnasios pequeños y medianos en Colombia suelen gestionar todo con Excel, cuadernos o software genérico que no encaja con su operación. Un sistema pensado desde cero para su realidad —multi-sucursal, suscripciones flexibles, entrenadores asignados, control de acceso— podía ser útil de verdad.
+
+## Cuando la materia terminó, el proyecto no
+
+Terminamos el curso con la documentación completa y una defensa decente. Lo natural habría sido archivar los archivos y seguir con la siguiente materia. Pero junto con el equipo decidimos que valía la pena seguir. Convertimos los diagramas en código. Empezamos por el backend.
+
+El primer commit fue un esqueleto de Spring Boot con un endpoint de prueba. El segundo, la configuración de JWT. El tercero, el modelo de usuarios con roles. Cada semana añadíamos una pieza. El proyecto creció hasta tener autenticación, gestión de sucursales, suscripciones personalizables, control de clientes y entrenadores, y una API documentada con OpenAPI. El backend se convirtió en un sistema empresarial funcional, no en un ejercicio de clase.
+
+Después vino el frontend. React con TypeScript, Vite, React Router, Axios con interceptores, Context API para autenticación. El objetivo era que un administrador de gimnasio pudiera usar el sistema sin manual: todo a un par de clics, con feedback visual inmediato y formularios que no se sienten como un trámite.
+
+## Por qué seguimos creyendo en él
+
+En algún punto del camino, alguien dijo que quizá podíamos venderlo. No lo hicimos, pero la idea quedó flotando. GymColombia dejó de ser un proyecto académico y se convirtió en algo con potencial real. La arquitectura está pensada para escalar. Los permisos están separados por rol. Las sucursales son multi-tenant. Si mañana quisiéramos meterlo a producción para un cliente pequeño, la mayor parte del trabajo ya está hecho.
+
+También aprendimos algo que no se enseña en clase: **cómo se siente trabajar en un proyecto que se extiende durante meses sin una fecha de entrega obligatoria**. La motivación se va apagando poco a poco cuando nadie te espera al otro lado. Ahí es donde el equipo importa. Si fuera solo, lo habría archivado en la tercera semana. Con ellos, cada uno mantenía vivo el interés cuando otro estaba saturado con otras materias.
+
+## Dónde está hoy
+
+Honestamente, el proyecto está pausado. La vida se interpuso: trabajos, otros proyectos, otras materias, prácticas. Pero no está muerto. La documentación sigue ahí. El código funciona. Las decisiones están registradas. Cuando tengamos tiempo, queremos retomarlo y terminar lo que falta: módulo de pagos, notificaciones, rutinas de entrenamiento, reportes avanzados.
+
+Y aunque nunca lo terminemos, este proyecto me enseñó más sobre desarrollo de software real que cualquier otra cosa que haya hecho. Aprendí a diseñar un backend pensado para durar, a separar responsabilidades entre capas, a documentar APIs para que otros puedan usarlas, y sobre todo, a sostener una idea cuando el entusiasmo inicial ya no está.

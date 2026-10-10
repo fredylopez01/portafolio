@@ -1,0 +1,64 @@
+El proyecto final del curso de Machine Learning tenía una consigna generosa: trabajar con el Mundial 2026, elegir un objetivo, construir un modelo y defenderlo. La libertad era tanta que lo más difícil fue decidir qué predecir. Goles, faltas, posesión, tarjetas, corners, asistencias. Cada equipo del salón eligió algo distinto.
+
+Nosotros elegimos la asistencia.
+
+## Por qué la asistencia
+
+La decisión no fue obvia. La asistencia es un problema difícil: en el fútbol hay demasiadas variables que no se pueden medir ni controlar. El clima del día, la racha del equipo, la venta de entradas, los precios de los tiquetes, el transporte, la seguridad, la popularidad de los jugadores en ese momento. Nadie puede predecir con certeza si un partido va a llenar el estadio.
+
+Pero ahí estaba la gracia. Comparada con predecir goles o faltas —variables que dependen de eventos caóticos dentro del campo— la asistencia es un dato **estructural**: depende del estadio, de los equipos, de la fase, de la ciudad, de la historia. No es un evento puntual, es un contexto. Y eso la hace abordable con machine learning.
+
+Además, para cualquier organizador de un torneo así, la asistencia es información que vale dinero. Saber cuántas entradas vender, cómo dimensionar la seguridad, cuánto personal contratar, qué logística montar por partido. Predecir goles no le sirve a nadie que organice un Mundial. Predecir asistencia, sí.
+
+Ese fue el argumento que nos convenció de seguir. La dificultad era alta, pero el problema estaba bien planteado.
+
+## Cómo empezó el trabajo
+
+Empezamos por los datos. Kaggle tiene el historial completo de partidos de la Copa del Mundo desde 1930 hasta 2014: equipos, sedes, fases, asistencias. Era el insumo perfecto, pero venía sucio. Partidos duplicados, asistencias faltantes, nombres de estadios inconsistentes entre ediciones. Perdimos la primera semana limpiando.
+
+La parte más difícil fue reconstruir la **capacidad histórica de cada estadio por año**. Los estadios cambian de nombre, se remodelan, cambian de aforo. Un estadio que en 1970 tenía 60.000 sillas, en 2014 podía tener 80.000 después de una remodelación. Sin ese dato, cualquier predicción de asistencia es incompleta, porque no puedes hablar de "ocupación" sin saber cuál es el máximo posible. Construimos un script que combina la asistencia conocida con datos externos para generar un CSV de capacidades históricas. Esa fue nuestra primera contribución al proyecto y probablemente la más importante.
+
+## Cómo está construido
+
+Usamos dos modelos complementarios, cada uno respondiendo a una pregunta distinta:
+
+- **Random Forest** con `GridSearchCV` para predecir la asistencia y la tasa de ocupación. Entrenado sobre features como equipos, fase, sede, año y capacidad del estadio. Los hiperparámetros se ajustan automáticamente con búsqueda en grilla.
+- **K-Means** para agrupar los partidos históricos en clústeres según ocupación, atractivo, capacidad y año. Responde "¿a qué tipo de partido se parece este?" en lugar de solo dar un número.
+
+El backend está en **Python con Flask**, organizado en **Clean Architecture**: `domain`, `application`, `infrastructure` e `interfaces`, con dependencias apuntando siempre hacia el centro. Si mañana quisiéramos cambiar Flask por FastAPI, o scikit-learn por XGBoost, solo se toca la capa de infraestructura.
+
+El frontend está en **Next.js 16 con App Router y Tailwind v4**, e incluye:
+
+1. **Formulario de predicción** con equipos, sede, fase y año.
+2. **Cuadro del Mundial 2026** con los 12 grupos y 72 partidos oficiales. Al hacer clic en uno, precarga el formulario.
+3. **Visualización de clústeres** con centroides proyectados en 2D con PCA.
+
+Cada predicción se registra en un CSV junto con el request original, para poder auditar el modelo con el tiempo y detectar deriva.
+
+## La honestidad del resultado
+
+El modelo no es perfecto, y no podía serlo. La varianza del fútbol es enorme. Un partido entre dos selecciones históricas puede llenar cualquier estadio sin importar la ciudad. Un partido de fase de grupos entre selecciones debutantes puede dejar butacas vacías aunque sea en un estadio enorme.
+
+El Random Forest da predicciones razonables, con márgenes de error aceptables dentro del caos. Lo que mejor funciona es la **clasificación por clústeres**: cuando el K-Means dice que un partido se parece a "finales de alto perfil" o "fase de grupos de bajo interés", acierta más seguido que la predicción numérica exacta. Esa capa cualitativa terminó siendo, en la práctica, más útil que el número puntual.
+
+## El despliegue en capas gratuitas
+
+El proyecto está desplegado en **Render**, con el backend Flask y el frontend Next.js en servicios separados. Los planes gratuitos duermen los servicios después de un tiempo de inactividad, así que la primera visita del día tarda unos segundos en despertar el backend. Después de eso, todo funciona rápido.
+
+La parte que sí evitamos fue depender de una base de datos externa. Los datos históricos van empaquetados con el backend como archivos locales, y los modelos entrenados se guardan como `.pkl` dentro del repositorio. Eso significa que el sistema no se rompe si un servicio externo falla: es autosuficiente.
+
+## Lo que aprendí
+
+Tres cosas se me quedaron grabadas.
+
+**La primera** es que el 70% del trabajo de machine learning está en los datos. La parte vistosa —entrenar modelos, ajustar hiperparámetros, graficar resultados— es el 30% final. La primera semana la pasamos limpiando, cruzando y validando. Sin ese trabajo, ningún modelo funciona por más elegante que sea la arquitectura.
+
+**La segunda** es que **elegir bien el problema es la mitad del trabajo**. La asistencia no era el objetivo más obvio ni el más glamoroso del salón. Muchos equipos eligieron goles o tarjetas porque parecían problemas "más de machine learning". Pero eran problemas atrapados en la aleatoriedad del juego. La asistencia, en cambio, tiene estructura, y eso la hace abordable. Entender eso antes de escribir la primera línea de código nos ahorró semanas.
+
+**La tercera** es que **dos modelos cuentan mejor la historia que uno**. El Random Forest responde "¿cuánta gente va a ir?". El K-Means responde "¿a qué tipo de partido se parece?". Juntos dan una respuesta más rica que cualquiera por separado. Esa combinación fue lo que llevó el proyecto de "ejercicio de clase" a "algo que vale la pena mostrar".
+
+## Sobre el equipo
+
+Nicolás y yo nos dividimos el trabajo desde el principio. Yo me encargué del backend Flask, la arquitectura limpia y el frontend en Next.js. Nicolás del pipeline de datos, la ingeniería de features, el entrenamiento de los modelos y la evaluación con métricas. La división no fue rígida: cuando uno se atascaba, el otro entraba. La parte de reconstruir las capacidades históricas de los estadios la hicimos entre los dos, porque era el cuello de botella del proyecto.
+
+El resultado terminó siendo el proyecto que más me ha gustado hacer en la carrera hasta ahora. No por el resultado del modelo, sino porque fue el primero donde **elegir bien el problema** fue tan importante como resolverlo.

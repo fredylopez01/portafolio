@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --bg: 250 250 252;
@@ -338,4 +339,39 @@ body::after {
 .tech-icon:hover .tech-tooltip {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+/* Scrollbar de la galería: delgada, flotante, con acento en hover */
+.gallery-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border)) transparent;
+  /* Deja espacio a la derecha para que la barra no tape las miniaturas */
+  padding-right: 6px;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.gallery-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--border));
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.gallery-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--accent));
+}
+
+/* En móvil el scroll horizontal: mismo estilo pero sin padding extra */
+@media (max-width: 639px) {
+  .gallery-scroll {
+    padding-right: 0;
+    padding-bottom: 6px;
+  }
 }

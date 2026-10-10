@@ -1,0 +1,46 @@
+SICAP nació de una observación simple: en la mayoría de parqueaderos de Colombia, el control de entradas y salidas se hace con papel, un talonario y la memoria del operario. No hay forma de saber cuántos espacios quedan libres sin mandar a alguien a contar. No hay historial de quién entró, cuándo y en qué carro. Y si el operario se equivoca, nadie se enteró hasta que el cliente reclama.
+
+La idea era simple: reemplazar ese caos por una interfaz que haga todo automático y que el operario solo confirme lo que ya pasó. Nada revolucionario. Solo orden.
+
+## Cómo empezó
+
+Este proyecto fue el segundo trabajo grupal del semestre, con un equipo distinto al del gimnasio. Esta vez trabajé con Juanes y Santiago. La consigna era más abierta: "diseñen y construyan un sistema distribuido que resuelva un problema real". Elegimos parqueaderos porque es un problema que conocemos de cerca y que casi nadie ha resuelto bien a pequeña escala.
+
+Dividimos el trabajo en dos partes desde el primer día: frontend y backend, cada uno en su propio repositorio. Yo me encargué del backend y de la integración entre ambos mundos. Juanes y Santiago se dividieron el frontend: uno se enfocó en la lógica del dashboard y la gestión de sedes, el otro en la autenticación y los formularios.
+
+## Cómo está construido
+
+El backend es una API REST en **Node.js con Express**, escrita en **TypeScript** para tener tipado en todas las capas. La base de datos es **PostgreSQL** gestionada con **Prisma**, lo que nos permitió escribir el esquema de datos una sola vez y usarlo como fuente de verdad para las consultas y las migraciones.
+
+La autenticación es con **JWT**. Cuando un usuario hace login, el backend devuelve un token que el frontend guarda y adjunta a todas las peticiones posteriores. Los roles (administrador, controlador) se validan en middleware, así que las rutas sensibles están protegidas sin duplicar lógica en cada endpoint.
+
+La documentación de la API la generamos automáticamente con **Swagger**. Escribir los endpoints con anotaciones hace que la documentación se mantenga sincronizada con el código. Si mañana cambia un parámetro, el `swagger.json` se actualiza solo en el siguiente build.
+
+El frontend es **React 18 con TypeScript y Vite**. Usamos **Context API** para el estado de autenticación, y una combinación de **Tailwind CSS** y componentes reutilizables para mantener la interfaz consistente. La estructura está pensada para crecer: los componentes viven separados de las páginas, los hooks personalizados encapsulan lógica reutilizable, y los servicios de API están aislados en su propia carpeta.
+
+## El techo honesto: la base de datos de pago
+
+Desplegamos el sistema completo en **Render**. El frontend funciona perfectamente. El backend responde. La API de Swagger está viva en `/api-docs`. Pero hay un problema que no pudimos evitar: **la base de datos gratuita de PostgreSQL en Render expira a los 30 días de inactividad**. Y como ninguno de nosotros va a pagar un plan mensual por un proyecto de portafolio, la base se durmió.
+
+Eso significa que hoy, cuando entras al sitio, puedes:
+
+1. Ver la landing page completa.
+2. Llegar a la pantalla de login.
+3. Intentar autenticarte.
+4. Y quedarte ahí, porque el backend no puede consultar usuarios.
+
+No es un bug, es una limitación de infraestructura. La hubiéramos resuelto con una base de datos permanente (un VPS, un plan pago, o incluso SQLite), pero no tenía sentido gastar en eso para un proyecto de clase. Lo dejamos documentado y desplegado hasta donde da el plan gratuito, que es más honesto que aparentar que todo funciona.
+
+## Lo que aprendí
+
+Tres cosas se me quedaron grabadas de este proyecto.
+
+**La primera** es que trabajar en dos repositorios separados tiene un costo real. Cada cambio en el backend obliga a coordinar con el frontend. Cada ruptura en el contrato de la API se convierte en un bug visible en la UI. Aprendimos a versionar los endpoints, a documentar los cambios en el README y a mantener una rama de staging donde probar los cambios antes de mergear a main. No es glamoroso, pero es lo que hacen los equipos reales.
+
+**La segunda** es que una API bien documentada vale oro. Cuando Swagger empezó a funcionar, dejamos de discutir sobre qué endpoint existía y qué parámetros tomaba. El frontend podía probar los endpoints directamente desde el navegador. Eso nos ahorró horas de coordinación.
+
+**La tercera**, y la más importante, es que **un proyecto desplegado es diferente a un proyecto que funciona**. Funcionar es que las pruebas pasen. Desplegar es que el usuario final pueda entrar, hacer login, y ver el dashboard. Esa diferencia me obligó a pensar en variables de entorno, en CORS, en HTTPS, en migraciones de base de datos. Cosas que en local uno no toca hasta que las ve fallar.
+
+## Sobre el equipo
+
+Juanes, Santiago y yo llevamos SICAP desde el kickoff. Yo me encargué del backend en Node/Express, la integración con Prisma y la documentación Swagger. Juanes trabajó en el dashboard, la gestión de sedes y las vistas de reportes. Santiago en la autenticación, los formularios y la gestión de usuarios. Cada uno tiene su repositorio y su historia para contar, y el proyecto terminó siendo un reflejo de cómo se repartieron las responsabilidades.

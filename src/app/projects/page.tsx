@@ -13,7 +13,7 @@ export default function ProjectsPage() {
   const all = projects as Project[];
 
   return (
-    <main className="px-6 py-16 max-w-6xl mx-auto">
+    <main className="px-6 py-6 max-w-6xl mx-auto">
       {/* Volver al inicio */}
       <Link
         href="/"

@@ -21,11 +21,14 @@ export interface Project {
   slug: string;
   title: string;
   shortDescription: string;
+  date: string;
   year: string;
   status: "deployed" | "local" | "academic";
   image: string; // ← NUEVO: ruta pública de la imagen
+  gallery: string[];
   stack: string[];
   demoUrl?: string;
+  repoUrlBackend?: string;
   repoUrl?: string;
   featured: boolean;
 }

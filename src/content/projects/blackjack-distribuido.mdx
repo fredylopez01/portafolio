@@ -1,0 +1,49 @@
+Este proyecto nació de una pregunta incómoda en la clase de Sistemas Distribuidos: _¿qué pasa si la base de datos se cae justo cuando alguien está jugando?_ La respuesta obvia era "el juego se rompe". Pero la respuesta correcta, la que valía la pena construir, era "el juego sigue".
+
+## El problema real
+
+Un blackjack multijugador tiene tres características que lo hacen interesante desde el punto de vista de sistemas:
+
+1. **Estado compartido en tiempo real.** Varios jugadores ven la misma mesa, las mismas cartas, el mismo turno. Si el estado se desincroniza aunque sea un segundo, la partida deja de tener sentido.
+2. **Operaciones críticas.** Cuando alguien apuesta, pierde o gana, ese dato importa. No puede desaparecer.
+3. **Usuarios impacientes.** Nadie va a esperar 30 segundos porque el backend está "reintentando algo". Si el sistema se cae, se van a otro lado.
+
+La solución naive es meter todo en un solo servidor con una base de datos y rezar. Pero eso no es un sistema distribuido: es un monolito con un solo punto de fallo.
+
+## La decisión clave: separar el estado del juego
+
+La arquitectura que terminé construyendo separa dos cosas que normalmente viven juntas:
+
+- **Game Engine:** el proceso que mantiene las partidas en memoria. Es rápido, no toca la base de datos para cada jugada, y puede responder en milisegundos por WebSocket. Si se cae, las partidas en curso se pierden (limitación honesta que asumí).
+- **Main App:** el proceso que persiste los datos importantes: rankings, historial, salas. Si se cae, el juego sigue porque el Game Engine tiene el estado.
+
+Esta separación es la que permite la tolerancia a fallos. Si PostgreSQL se cae, el Game Engine sigue sirviendo partidas desde memoria. Cuando la base vuelve, un **Worker Consumer** procesa los mensajes que se encolaron en RabbitMQ durante la caída y sincroniza todo.
+
+## El modo degradado
+
+La parte que más me gustó implementar fue el **modo degradado**. Cuando el sistema detecta que PostgreSQL no responde:
+
+1. Las salas nuevas se crean solo en el Game Engine (en memoria).
+2. Las escrituras que deberían ir a la base se encolan en RabbitMQ en lugar de fallar.
+3. Las lecturas de rankings e historial se sirven desde el Game Engine.
+4. El usuario no ve un error. Ve una advertencia sutil de que "algunas funciones están limitadas".
+
+Cuando la base de datos se recupera, el Worker Consumer empieza a consumir la cola y aplica los cambios pendientes. La consistencia es **eventual**, no inmediata, y eso está bien: el usuario prefiere ver su partida guardada 20 segundos después que perderla.
+
+## Balanceo de carga y observabilidad
+
+El Main App corre en tres réplicas detrás de NGINX. No es por escalabilidad real (este proyecto no tiene millones de usuarios), es por **demostrar que sé hacerlo**: health checks, sesiones sin estado con JWT, y un proxy que sabe cuándo sacar una instancia del pool.
+
+La observabilidad la resolví con Prometheus + Grafana. Cada servicio expone `/metrics` con métricas estándar de Node.js más algunas de negocio: jugadores activos, partidas en curso, mensajes encolados. Los dashboards de Grafana los dejé pre-configurados en el repositorio, así que cualquiera puede levantar el sistema con `./deploy.sh` y ver las métricas funcionando en menos de un minuto.
+
+## Lo que aprendí
+
+Este proyecto me enseñó que **la tolerancia a fallos no es magia, es diseño**. No se trata de que nada falle, sino de que cuando algo falle, el sistema se comporte de una forma predecible y útil.
+
+También aprendí que **WebSockets y bases de datos no se llevan bien si los mezclas sin pensar**. Mi primera versión intentaba guardar cada jugada en PostgreSQL en tiempo real. Era lento y frágil. La solución fue tratar la base como un registro eventual, no como la fuente de verdad del juego.
+
+Y sobre todo, aprendí que la parte más difícil de un sistema distribuido no es hacerlo funcionar, sino hacerlo **entendible**. Un sistema que solo tú sabes levantar no sirve. Por eso el README tiene un script de despliegue, dashboards listos, y variables de entorno documentadas.
+
+## Sobre el equipo
+
+Este proyecto fue el trabajo final de Sistemas Distribuidos en la UPTC, desarrollado junto a David Rodríguez y Santiago Naranjo. Yo me encargué de la arquitectura, el Game Engine, la parte de tolerancia a fallos y la integración frontend. David trabajó en el sistema de autenticación y Santiago en el login con JWT y las pruebas. Fue un buen ejercicio de dividir un problema grande en partes que se pudieran trabajar en paralelo sin pisarse.

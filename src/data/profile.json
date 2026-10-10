@@ -1,0 +1,11 @@
+{
+  "name": "Fredy Oswaldo López Daza",
+  "role": "Full-Stack Developer · Backend & Distributed Systems",
+  "tagline": "Construyo sistemas completos: desde la API hasta la interfaz.",
+  "description": "Estudiante de Ingeniería de Sistemas (UPTC) con experiencia práctica en desarrollo Full-Stack. Trabajo principalmente con Java/Spring Boot y Node.js/NestJS en backend, y Next.js/React en frontend. Me apasiona el diseño de sistemas distribuidos, microservicios y arquitecturas limpias. Disfruto convertir problemas complejos en soluciones simples, medibles y observables.",
+  "location": "Colombia",
+  "email": "tu-correo@ejemplo.com",
+  "github": "https://github.com/fredylopez01",
+  "linkedin": "www.linkedin.com/in/fredy-oswaldo-lopez-daza",
+  "cvUrl": "/cv.pdf"
+}

@@ -1,0 +1,136 @@
+[
+  {
+    "name": "Java",
+    "slug": "openjdk",
+    "color": "#ED8B00",
+    "category": "backend"
+  },
+  {
+    "name": "Spring Boot",
+    "slug": "springboot",
+    "color": "#6DB33F",
+    "category": "backend"
+  },
+  {
+    "name": "Node.js",
+    "slug": "nodedotjs",
+    "color": "#5FA04E",
+    "category": "backend"
+  },
+  {
+    "name": "NestJS",
+    "slug": "nestjs",
+    "color": "#E0234E",
+    "category": "backend"
+  },
+  {
+    "name": "Express",
+    "slug": "express",
+    "color": "#000000",
+    "category": "backend"
+  },
+  {
+    "name": "TypeScript",
+    "slug": "typescript",
+    "color": "#3178C6",
+    "category": "frontend"
+  },
+  {
+    "name": "React",
+    "slug": "react",
+    "color": "#61DAFB",
+    "category": "frontend"
+  },
+  {
+    "name": "Next.js",
+    "slug": "nextdotjs",
+    "color": "#000000",
+    "category": "frontend"
+  },
+  {
+    "name": "Tailwind CSS",
+    "slug": "tailwindcss",
+    "color": "#06B6D4",
+    "category": "frontend"
+  },
+  {
+    "name": "PostgreSQL",
+    "slug": "postgresql",
+    "color": "#4169E1",
+    "category": "database"
+  },
+  {
+    "name": "MySQL",
+    "slug": "mysql",
+    "color": "#4479A1",
+    "category": "database"
+  },
+  {
+    "name": "MongoDB",
+    "slug": "mongodb",
+    "color": "#47A248",
+    "category": "database"
+  },
+  {
+    "name": "Redis",
+    "slug": "redis",
+    "color": "#DC382D",
+    "category": "database"
+  },
+  {
+    "name": "RabbitMQ",
+    "slug": "rabbitmq",
+    "color": "#FF6600",
+    "category": "backend"
+  },
+  {
+    "name": "Apache Kafka",
+    "slug": "apachekafka",
+    "color": "#231F20",
+    "category": "backend"
+  },
+  {
+    "name": "Docker",
+    "slug": "docker",
+    "color": "#2496ED",
+    "category": "devops"
+  },
+  {
+    "name": "NGINX",
+    "slug": "nginx",
+    "color": "#009639",
+    "category": "devops"
+  },
+  {
+    "name": "Prometheus",
+    "slug": "prometheus",
+    "color": "#E6522C",
+    "category": "devops"
+  },
+  {
+    "name": "Grafana",
+    "slug": "grafana",
+    "color": "#F46800",
+    "category": "devops"
+  },
+  {
+    "name": "Python",
+    "slug": "python",
+    "color": "#3776AB",
+    "category": "data"
+  },
+  {
+    "name": "Flask",
+    "slug": "flask",
+    "color": "#000000",
+    "category": "backend"
+  },
+  { "name": "Git", "slug": "git", "color": "#F05032", "category": "devops" },
+  {
+    "name": "GitHub",
+    "slug": "github",
+    "color": "#000000",
+    "category": "devops"
+  },
+  { "name": "Linux", "slug": "linux", "color": "#FCC624", "category": "devops" }
+]

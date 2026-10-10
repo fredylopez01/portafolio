@@ -1,26 +1,339 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: 250 250 252;
+  --bg-elev: 255 255 255;
+  --text: 10 10 15;
+  --text-muted: 90 90 105;
+  --border: 228 228 235;
+  --accent: 124 58 237;
+  --accent-2: 6 182 212;
+  --lime: 163 230 53;
+  --glow-1: 124 58 237;
+  --glow-2: 6 182 212;
+  --glow-opacity: 0.16;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --bg: 6 6 10;
+  --bg-elev: 14 14 22;
+  --text: 240 240 245;
+  --text-muted: 150 150 165;
+  --border: 38 38 55;
+  --accent: 139 92 246;
+  --accent-2: 34 211 238;
+  --lime: 163 230 53;
+  --glow-1: 139 92 246;
+  --glow-2: 34 211 238;
+  --glow-opacity: 0.24;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family: var(--font-inter), system-ui, sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Capa 1: manchas tipo spray */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      700px circle at 12% 8%,
+      rgba(var(--glow-1) / var(--glow-opacity)),
+      transparent 65%
+    ),
+    radial-gradient(
+      800px circle at 88% 45%,
+      rgba(var(--lime) / calc(var(--glow-opacity) * 0.5)),
+      transparent 65%
+    ),
+    radial-gradient(
+      600px circle at 50% 100%,
+      rgba(var(--glow-2) / calc(var(--glow-opacity) * 0.7)),
+      transparent 65%
+    );
+}
+
+/* Capa 2: rejilla tipo terminal */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(rgb(var(--text)) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--text)) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 85%);
+}
+
+/* Scanlines CRT */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.025) 3px,
+    rgba(0, 0, 0, 0.025) 4px
+  );
+  opacity: 0.7;
+}
+.dark .scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.018) 3px,
+    rgba(255, 255, 255, 0.018) 4px
+  );
+}
+
+/* Tipografía display (marcador) */
+.font-display {
+  font-family: var(--font-display), "Permanent Marker", cursive;
+  letter-spacing: 0.01em;
+}
+
+/* Tipografía mono (terminal) */
+.font-mono {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+
+/* Tarjetas */
+.card {
+  background-color: rgb(var(--bg-elev) / 0.75);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgb(var(--border));
+  border-radius: 0.75rem;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--accent));
+  box-shadow: 0 12px 44px -14px rgb(var(--accent) / 0.5);
+}
+
+/* Prompt de terminal reutilizable */
+.terminal-prompt::before {
+  content: "$ ";
+  color: rgb(var(--lime));
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  margin-right: 0.4rem;
+}
+
+/* Subrayado tipo marcador */
+.marker-underline {
+  position: relative;
+  display: inline-block;
+}
+.marker-underline::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 0.08em;
+  height: 0.35em;
+  background-color: rgb(var(--lime) / 0.55);
+  z-index: -1;
+  transform: skew(-6deg);
+  border-radius: 2px;
+}
+
+/* Cursor de terminal parpadeante */
+.cursor-blink {
+  display: inline-block;
+  width: 0.6ch;
+  background-color: rgb(var(--accent));
+  animation: blink 1.1s steps(2, start) infinite;
+  margin-left: 2px;
+  vertical-align: baseline;
+}
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* Rotación tipo sticker */
+.tilt-left {
+  transform: rotate(-1.5deg);
+}
+.tilt-right {
+  transform: rotate(1.5deg);
+}
+
+/* Utilidades de color */
+.accent-text {
+  color: rgb(var(--accent));
+}
+.lime-text {
+  color: rgb(var(--lime));
+}
+.muted {
+  color: rgb(var(--text-muted));
+}
+
+/* Etiqueta de sección */
+.section-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--text-muted));
+}
+
+/* ------------------------------------------------------------------ */
+/* CARRUSEL INFINITO DE STACK                                          */
+/* ------------------------------------------------------------------ */
+
+.marquee {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  overflow: hidden;
+  /* Difuminamos los bordes para que los iconos aparezcan/desaparezcan suave */
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+  animation: marquee-left 40s linear infinite;
+  will-change: transform;
+}
+
+/* Fila 2: derecha */
+.marquee-row--right .marquee-track {
+  animation-name: marquee-right;
+  animation-duration: 45s;
+}
+
+/* Pausa al pasar por encima de cualquier icono */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Icono del carrusel con tooltip */
+.tech-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid rgb(var(--border));
+  background-color: rgb(var(--bg-elev) / 0.6);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+  flex-shrink: 0;
+}
+.tech-icon:hover {
+  transform: scale(1.15);
+  border-color: rgb(var(--accent));
+  z-index: 5;
+}
+.tech-icon img {
+  width: 1.75rem;
+  height: 1.75rem;
+  filter: grayscale(1);
+  opacity: 0.75;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease;
+}
+.tech-icon:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* Tooltip */
+.tech-tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 0.25rem 0.6rem;
+  background-color: rgb(var(--bg-elev));
+  border: 1px solid rgb(var(--border));
+  border-radius: 0.4rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 10;
+}
+.tech-icon:hover .tech-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }

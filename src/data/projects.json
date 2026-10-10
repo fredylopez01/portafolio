@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "blackjack-distribuido",
+    "title": "Sistema de Blackjack Distribuido",
+    "shortDescription": "Arquitectura distribuida con 4 servicios backend, RabbitMQ y WebSockets para partidas multijugador en tiempo real.",
+    "year": "2025",
+    "status": "academic",
+    "image": "/projects/blackjack.png",
+    "stack": [
+      "Node.js",
+      "Socket.IO",
+      "RabbitMQ",
+      "NGINX",
+      "Prometheus",
+      "Grafana",
+      "Docker"
+    ],
+    "repoUrl": "https://github.com/fredylopez01/REPO-BLACKJACK",
+    "demoUrl": "",
+    "featured": true
+  },
+  {
+    "slug": "gimnasio-fullstack",
+    "title": "Sistema Integral de Gestión de Gimnasios",
+    "shortDescription": "Aplicación Full-Stack modular con Spring Boot, JWT y Next.js, diseñada para crecer por módulos.",
+    "year": "2025",
+    "status": "local",
+    "image": "/projects/gimnasio.png",
+    "stack": ["Java", "Spring Boot", "JPA", "JWT", "Next.js", "PostgreSQL"],
+    "repoUrl": "https://github.com/fredylopez01/REPO-GIMNASIO",
+    "demoUrl": "",
+    "featured": true
+  },
+  {
+    "slug": "parqueaderos",
+    "title": "Sistema de Parqueaderos Cliente-Servidor",
+    "shortDescription": "API REST con autenticación JWT, roles, arquitectura por capas y frontend en Next.js.",
+    "year": "2025",
+    "status": "deployed",
+    "image": "/projects/parqueaderos.png",
+    "stack": ["Node.js", "Prisma", "PostgreSQL", "Next.js", "JWT"],
+    "repoUrl": "https://github.com/fredylopez01/REPO-PARQUEADEROS",
+    "demoUrl": "https://DEMO-PARQUEADEROS.netlify.app",
+    "featured": true
+  },
+  {
+    "slug": "fifa-attendance-predictor",
+    "title": "FIFA World Cup 2026 — Attendance Predictor",
+    "shortDescription": "ML (Random Forest + K-Means) con API Flask en Clean Architecture y SPA en Next.js.",
+    "year": "2026",
+    "status": "deployed",
+    "image": "/projects/fifa.png",
+    "stack": ["Python", "Flask", "scikit-learn", "Next.js", "Tailwind CSS"],
+    "repoUrl": "https://github.com/fredylopez01/REPO-FIFA",
+    "demoUrl": "https://DEMO-FIFA.netlify.app",
+    "featured": true
+  }
+]

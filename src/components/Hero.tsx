@@ -1,7 +1,8 @@
 import profile from "@/data/profile.json";
-import { Mail, ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import ThemeToggle from "./ThemeToggle";
+import { SiGmail } from "react-icons/si";
 
 export default function Hero() {
   return (
@@ -85,7 +86,7 @@ export default function Hero() {
               aria-label="Email"
               className="hover:text-[rgb(var(--accent))] transition"
             >
-              <Mail size={30} />
+              <SiGmail size={30} />
             </a>
           </div>
         </div>
@@ -102,7 +103,7 @@ export default function Hero() {
           />
 
           <img
-            src="/avatar.png"
+            src="/avatar.webp"
             alt="Avatar de Fredy López"
             className="w-64 h-64 md:w-90 md:h-90 object-cover rounded-2xl border-4 border-white/10 shadow-2xl tilt-right hover:rotate-0 transition-transform duration-500"
           />

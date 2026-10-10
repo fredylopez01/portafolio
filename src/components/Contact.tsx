@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import profile from "@/data/profile.json";
-import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
 
 export default function Contact() {
   const [year, setYear] = useState<number | null>(null);
@@ -48,7 +48,7 @@ export default function Contact() {
             className="px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-white text-sm tilt-left hover:rotate-0 transition-transform"
             style={{ backgroundColor: "rgb(var(--accent))" }}
           >
-            <Mail size={15} /> Escríbeme
+            <SiGmail size={15} /> Escríbeme
           </a>
           <a
             href={profile.github}

@@ -26,7 +26,7 @@
   {
     "name": "Express",
     "slug": "express",
-    "color": "#000000",
+    "color": "#393939",
     "category": "backend"
   },
   {
@@ -122,7 +122,7 @@
   {
     "name": "Flask",
     "slug": "flask",
-    "color": "#000000",
+    "color": "#ffda03",
     "category": "backend"
   },
   { "name": "Git", "slug": "git", "color": "#F05032", "category": "devops" },

@@ -49,7 +49,7 @@ export default function Stack() {
 
 function TechIcon({ tech }: { tech: StackItem }) {
   return (
-    <div className="tech-icon">
+    <div className="tech-icon" title={tech.name}>
       <img
         src={`https://cdn.simpleicons.org/${tech.slug}/${tech.color.replace("#", "")}`}
         alt={tech.name}

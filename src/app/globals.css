@@ -375,3 +375,126 @@ body::after {
     padding-bottom: 6px;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* TERMINAL TRANSITION                                                 */
+/* ------------------------------------------------------------------ */
+.terminal-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(2, 2, 8, 0.98);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  /* por defecto, invisible; el inline style lo pone a 1 cuando toca */
+  opacity: 0;
+}
+
+.terminal-transition[data-phase="typing"],
+.terminal-transition[data-phase="loading"] {
+  opacity: 1;
+}
+
+.terminal-transition[data-phase="leaving"] {
+  opacity: 0;
+  transition: opacity 350ms ease-out;
+}
+
+.terminal-transition[data-phase="idle"] {
+  opacity: 0;
+  transition: none;
+  visibility: hidden;
+}
+
+.terminal-window {
+  width: min(560px, 90vw);
+  background-color: #0b0b12;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.15),
+    0 20px 60px -20px rgba(139, 92, 246, 0.5);
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background-color: #15151f;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.dot-red {
+  background-color: #ff5f56;
+}
+.dot-yellow {
+  background-color: #ffbd2e;
+}
+.dot-green {
+  background-color: #27c93f;
+}
+
+.terminal-title {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(240, 240, 245, 0.5);
+  letter-spacing: 0.02em;
+}
+
+.terminal-body {
+  padding: 18px 20px;
+  min-height: 90px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e5e5ec;
+}
+
+.terminal-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  white-space: pre;
+}
+
+.typed-text {
+  color: #e5e5ec;
+}
+
+/* Puntos de carga animados */
+.loading-dots span {
+  display: inline-block;
+  color: #a3e635;
+  animation: dot-pulse 1.2s infinite ease-in-out;
+}
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-pulse {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}

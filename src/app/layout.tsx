@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Permanent_Marker } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import TerminalTransition from "@/components/TeminalTransition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({
           <div className="scanlines" aria-hidden />
           <Nav />
           {children}
+          <TerminalTransition />
         </ThemeProvider>
       </body>
     </html>

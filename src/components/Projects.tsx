@@ -2,6 +2,7 @@ import projects from "@/data/projects.json";
 import type { Project } from "@/types";
 import { ArrowUpRight } from "lucide-react";
 import ProjectImage from "./ProjectImage";
+import Link from "next/link";
 
 export default function Projects() {
   const featured = (projects as Project[]).filter((p) => p.featured);
@@ -16,12 +17,12 @@ export default function Projects() {
         <h2 className="font-display text-3xl md:text-5xl">
           Proyectos <span className="marker-underline">destacados</span>
         </h2>
-        <a
+        <Link
           href="/projects"
           className="font-mono text-xs muted hover:text-[rgb(var(--accent))] transition flex items-center gap-1.5"
         >
           Ver todos los proyectos <ArrowUpRight size={12} />
-        </a>
+        </Link>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">

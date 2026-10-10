@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Permanent_Marker } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import Nav from "@/components/Nav";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${jetbrainsMono.variable} ${permanentMarker.variable}`}
     >
       <body>
@@ -44,6 +46,7 @@ export default function RootLayout({
           enableSystem={false}
         >
           <div className="scanlines" aria-hidden />
+          <Nav />
           {children}
         </ThemeProvider>
       </body>

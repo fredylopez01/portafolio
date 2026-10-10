@@ -1,16 +1,11 @@
 import profile from "@/data/profile.json";
 import { ArrowRight, Download } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import ThemeToggle from "./ThemeToggle";
 import { SiGmail } from "react-icons/si";
 
 export default function Hero() {
   return (
-    <section className="min-h-[75vh] flex items-center px-6 max-w-6xl mx-auto relative py-20">
-      <div className="absolute top-6 right-6 z-10">
-        <ThemeToggle />
-      </div>
-
+    <section className="min-h-[75vh] flex items-center px-6 max-w-6xl mx-auto relative py-18">
       <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 items-center w-full">
         {/* Columna izquierda */}
         <div>
